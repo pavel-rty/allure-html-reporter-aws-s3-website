@@ -27,7 +27,7 @@ RUN apk update && \
     && apk add --no-cache nss \
     && rm -rf /var/cache/apk/*
 
-ARG RELEASE=2.18.1
+ARG RELEASE=2.22.1
 ARG ALLURE_REPO=https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline
 
 RUN echo $RELEASE && \

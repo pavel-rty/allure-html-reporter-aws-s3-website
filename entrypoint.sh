@@ -58,12 +58,12 @@ sh -c "aws s3 cp s3://${AWS_S3_BUCKET}/latest/history ./${INPUT_ALLURE_RESULTS}/
               --no-progress \
               --recursive"
 
-ls -l ${INPUT_ALLURE_RESULTS}
-ls -l ${INPUT_ALLURE_RESULTS}/history
+cat ./${INPUT_ALLURE_RESULTS}/history/history-trend.json
 
 echo "generating report from ${INPUT_ALLURE_RESULTS} to ${INPUT_ALLURE_REPORT} ..."
 ls -l ${INPUT_ALLURE_RESULTS}
 allure generate --clean ${INPUT_ALLURE_RESULTS} -o ${INPUT_ALLURE_REPORT}
+cat ./${INPUT_ALLURE_REPORT}/history/history-trend.json
 echo "listing report directory ..."
 ls -l ${INPUT_ALLURE_REPORT}
 
