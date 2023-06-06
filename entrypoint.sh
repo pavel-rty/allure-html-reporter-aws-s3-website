@@ -143,7 +143,7 @@ sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
 
 # Sync to the latest folder
 
-sh -c "aws s3 cp ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET}/latest \
+sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET}/latest \
               --profile s3-sync-action \
               --no-progress \
               ${ENDPOINT_APPEND} $*"
