@@ -54,7 +54,7 @@ echo "URL=${S3_WEBSITE_URL}" >> ./${INPUT_ALLURE_RESULTS}/environment.properties
 
 
 ls -l ${INPUT_ALLURE_RESULTS}
-cat ./${INPUT_ALLURE_RESULTS}/history/history-trend.json
+cat ./${INPUT_ALLURE_RESULTS}/history/history-trend.json && echo
 rm -rf ./${INPUT_ALLURE_RESULTS}/history
 echo "downloading latest history from s3"
 mkdir -p ./${INPUT_ALLURE_RESULTS}/history
@@ -62,12 +62,12 @@ sh -c "aws s3 cp s3://${AWS_S3_BUCKET}/latest/history ./${INPUT_ALLURE_RESULTS}/
               --no-progress \
               --recursive"
 
-cat ./${INPUT_ALLURE_RESULTS}/history/history-trend.json
+cat ./${INPUT_ALLURE_RESULTS}/history/history-trend.json && echo
 
 echo "generating report from ${INPUT_ALLURE_RESULTS} to ${INPUT_ALLURE_REPORT} ..."
 ls -l ${INPUT_ALLURE_RESULTS}
 allure generate --clean ${INPUT_ALLURE_RESULTS} -o ${INPUT_ALLURE_REPORT}
-cat ./${INPUT_ALLURE_REPORT}/history/history-trend.json
+cat ./${INPUT_ALLURE_REPORT}/history/history-trend.json && echo
 echo "listing report directory ..."
 ls -l ${INPUT_ALLURE_REPORT}
 
@@ -93,6 +93,8 @@ echo "</html>" >> ./${INPUT_ALLURE_HISTORY}/index.html;
 
 
 echo "copy allure-results to ${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}"
+# delete the history folder from results before copying to history otherwise it will overwrite the history
+rm -rf ./${INPUT_ALLURE_RESULTS}/history
 cp -R ./${INPUT_ALLURE_RESULTS}/. ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}
 
 set -e
@@ -141,7 +143,7 @@ sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
 
 # Sync to the latest folder
 
-sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET}/latest \
+sh -c "aws s3 cp ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET}/latest \
               --profile s3-sync-action \
               --no-progress \
               ${ENDPOINT_APPEND} $*"
