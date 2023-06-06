@@ -53,8 +53,10 @@ mv ./executor.json ./${INPUT_ALLURE_RESULTS}
 echo "URL=${S3_WEBSITE_URL}" >> ./${INPUT_ALLURE_RESULTS}/environment.properties
 
 echo "downloading latest history from s3"
-sh -c "aws s3 cp -r s3://${AWS_S3_BUCKET}/latest/history ./${INPUT_ALLURE_RESULTS} \
-              --no-progress"
+mkdir -p ./${INPUT_ALLURE_RESULTS}/history
+sh -c "aws s3 cp s3://${AWS_S3_BUCKET}/latest/history ./${INPUT_ALLURE_RESULTS}/history \
+              --no-progress \
+              --recursive"
 
 ls -l ${INPUT_ALLURE_RESULTS}
 ls -l ${INPUT_ALLURE_RESULTS}/history
