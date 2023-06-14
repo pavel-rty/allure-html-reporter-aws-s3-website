@@ -58,7 +58,10 @@ cat ./${INPUT_ALLURE_RESULTS}/history/history-trend.json && echo
 rm -rf ./${INPUT_ALLURE_RESULTS}/history
 echo "downloading latest history from s3"
 mkdir -p ./${INPUT_ALLURE_RESULTS}/history
-sh -c "aws s3 cp s3://${AWS_S3_BUCKET}/${INPUT_LATEST_DEST}/history ./${INPUT_ALLURE_RESULTS}/history \
+# INPUT_LATEST_DEST looks like "Desktop Chrome"
+# convert INPUT_LATEST_DEST to URL safe string
+LATEST_URL=$(echo ${INPUT_LATEST_DEST} | sed 's/ /_/g')
+sh -c "aws s3 cp s3://${AWS_S3_BUCKET}/${LATEST_URL}/history ./${INPUT_ALLURE_RESULTS}/history \
               --no-progress \
               --recursive"
 
@@ -143,7 +146,7 @@ sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
 
 # Sync to the latest folder
 
-sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET}/${INPUT_LATEST_DEST} \
+sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET}/${LATEST_URL} \
               --profile s3-sync-action \
               --no-progress \
               ${ENDPOINT_APPEND} $*"
