@@ -60,7 +60,7 @@ echo "downloading latest history from s3"
 mkdir -p ./${INPUT_ALLURE_RESULTS}/history
 # INPUT_LATEST_DEST looks like "Desktop Chrome"
 # convert INPUT_LATEST_DEST to URL safe string
-LATEST_URL=$(echo ${INPUT_LATEST_DEST} | sed 's/ /_/g')
+LATEST_URL=$(echo ${INPUT_LATEST_DEST} | sed 's/ /-/g')
 sh -c "aws s3 cp s3://${AWS_S3_BUCKET}/${LATEST_URL}/history ./${INPUT_ALLURE_RESULTS}/history \
               --no-progress \
               --recursive"
