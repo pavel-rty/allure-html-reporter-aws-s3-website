@@ -1,6 +1,6 @@
 name: 'allure-html-reporter-aws-s3-website'
 description: 'Allure HTML Test Results with history to publish to AWS S3 Bucket'
-author: 'Pavan Mudigonda'
+author: 'Pavan Mudigonda, forked by clarity movement'
 branding:
   icon: 'layout'
   color: 'green'
@@ -33,6 +33,10 @@ inputs:
     description: 'Use a custom URL instead of *.github.io'
     required: false
     default: ''
+  latest_dest:
+    description: 'Destination for latest report'
+    required: false
+    default: 'latest'
 runs:
   using: 'docker'
   image: 'Dockerfile'
