@@ -56,12 +56,12 @@ echo "URL=${S3_WEBSITE_URL}" >> ./${INPUT_ALLURE_RESULTS}/environment.properties
 ls -l ${INPUT_ALLURE_RESULTS}
 cat ./${INPUT_ALLURE_RESULTS}/history/history-trend.json && echo
 rm -rf ./${INPUT_ALLURE_RESULTS}/history
-echo "downloading latest history from s3"
 mkdir -p ./${INPUT_ALLURE_RESULTS}/history
 # INPUT_LATEST_DEST looks like "Desktop Chrome"
 # convert INPUT_LATEST_DEST to URL safe string, lowercase, replace spaces with dashes
 # example: "Desktop Chrome" -> "desktop-chrome"
 LATEST_URL=$(echo ${INPUT_LATEST_DEST} | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
+echo "downloading latest history from s3 (${INPUT_LATEST_DEST}): ${LATEST_URL}"
 sh -c "aws s3 cp s3://${AWS_S3_BUCKET}/${LATEST_URL}/history ./${INPUT_ALLURE_RESULTS}/history \
               --no-progress \
               --recursive"
