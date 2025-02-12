@@ -43,7 +43,7 @@ fi
 #echo "executor.json"
 echo '{"name":"GitHub Actions","type":"github","reportName":"Allure Report with history",' > executor.json
 echo "\"url\":\"${GITHUB_PAGES_WEBSITE_URL}\"," >> executor.json # ???
-echo "\"reportUrl\":\"${GITHUB_PAGES_WEBSITE_URL}/${INPUT_GITHUB_RUN_NUM}/\"," >> executor.json
+echo "\"reportUrl\":\"${GITHUB_PAGES_WEBSITE_URL}/${DEST_DIR}/${INPUT_GITHUB_RUN_NUM}/\"," >> executor.json
 echo "\"buildUrl\":\"https://github.com/${INPUT_GITHUB_REPO}/actions/runs/${INPUT_GITHUB_RUN_ID}\"," >> executor.json
 echo "\"buildName\":\"GitHub Actions Run #${INPUT_GITHUB_RUN_ID}\",\"buildOrder\":\"${INPUT_GITHUB_RUN_NUM}\"}" >> executor.json
 #cat executor.json
