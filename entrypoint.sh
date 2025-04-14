@@ -154,7 +154,7 @@ sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET
               --no-progress \
               ${ENDPOINT_APPEND} $*"
 
-sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM}/index.html s3://${AWS_S3_BUCKET}/index.html \
+sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM}/index.html s3://${AWS_S3_BUCKET}/${DEST_DIR}/index.html \
 	      --profile s3-sync-action \
 	      --no-progress \
 	      ${ENDPOINT_APPEND} $*"
