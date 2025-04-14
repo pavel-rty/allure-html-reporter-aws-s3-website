@@ -98,7 +98,7 @@ cp -r ./${INPUT_ALLURE_REPORT}/. ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NU
 
 echo "copy allure-results to ${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}"
 cp -R ./${INPUT_ALLURE_RESULTS}/. ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}
-cp -R ./${INPUT_ALLURE_RESULTS}/history/index.html. ./${INPUT_ALLURE_HISTORY}/
+cp -R ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}/index.html. ./${INPUT_ALLURE_HISTORY}/
 # delete the history folder from results before copying to history otherwise it will overwrite the history
 rm -rf ./${INPUT_ALLURE_RESULTS}/history
 
