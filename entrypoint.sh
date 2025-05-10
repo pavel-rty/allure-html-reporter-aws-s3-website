@@ -85,21 +85,23 @@ cp -r ./${INPUT_ALLURE_REPORT}/. ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NU
 # echo "<meta http-equiv=\"Pragma\" content=\"no-cache\"><meta http-equiv=\"Expires\" content=\"0\">" >> ./${INPUT_ALLURE_HISTORY}/index.html
 # cat ./${INPUT_ALLURE_HISTORY}/index.html
 
-cat index-template.html > ./${INPUT_ALLURE_HISTORY}/index.html
+#cat index-template.html > ./${INPUT_ALLURE_HISTORY}/index.html
 
-echo "├── <a href="./${INPUT_GITHUB_RUN_NUM}/index.html">Latest Test Results - RUN ID: ${INPUT_GITHUB_RUN_NUM}</a><br>" >> ./${INPUT_ALLURE_HISTORY}/index.html;
-sh -c "aws s3 ls s3://${AWS_S3_BUCKET}" |  grep "PRE" | sed 's/PRE //' | sed 's/.$//' | sort -nr | while read line;
-    do
-        echo "├── <a href="./"${line}"/">RUN ID: "${line}"</a><br>" >> ./${INPUT_ALLURE_HISTORY}/index.html; 
-    done;
-echo "</html>" >> ./${INPUT_ALLURE_HISTORY}/index.html;
+#echo "├── <a href="./${INPUT_GITHUB_RUN_NUM}/index.html">Latest Test Results - RUN ID: ${INPUT_GITHUB_RUN_NUM}</a><br>" >> ./${INPUT_ALLURE_HISTORY}/index.html;
+#sh -c "aws s3 ls s3://${AWS_S3_BUCKET}" |  grep "PRE" | sed 's/PRE //' | sed 's/.$//' | sort -nr | while read line;
+#    do
+#        echo "├── <a href="./"${line}"/">RUN ID: "${line}"</a><br>" >> ./${INPUT_ALLURE_HISTORY}/index.html; 
+#    done;
+#echo "</html>" >> ./${INPUT_ALLURE_HISTORY}/index.html;
 # cat ./${INPUT_ALLURE_HISTORY}/index.html
 
 
 echo "copy allure-results to ${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}"
-# delete the history folder from results before copying to history otherwise it will overwrite the history
-rm -rf ./${INPUT_ALLURE_RESULTS}/history
 cp -R ./${INPUT_ALLURE_RESULTS}/. ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}
+# cp -R ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}/index.html. ./${INPUT_ALLURE_HISTORY}/
+# delete the history folder from results before copying to history otherwise it will overwrite the history
+echo "delete allure-history ${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}"
+rm -rf ./${INPUT_ALLURE_RESULTS}/history
 
 set -e
 
@@ -151,6 +153,11 @@ sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET
               --profile s3-sync-action \
               --no-progress \
               ${ENDPOINT_APPEND} $*"
+
+sh -c "aws s3 sync ${SOURCE_DIR:-.}/${INPUT_GITHUB_RUN_NUM} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
+	      --profile s3-sync-action \
+	      --no-progress \
+	      ${ENDPOINT_APPEND} $*"
 
 
 # Delete history
